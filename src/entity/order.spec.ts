@@ -26,5 +26,13 @@ describe("Order", () => {
         const total = order.total()
         expect(total).toEqual(400)
     })
+    it("Should throw error check if the item qty is greater than 0 ", () => {
+     
+       
+        expect(() => {
+            const item = new OrderItem("1", "item 01", 100.0, "p1", 0);
+            let order = new Order("12", "123", [item]);
+        }).toThrow("Quantity must be greater than 0")
+    })
 
 })

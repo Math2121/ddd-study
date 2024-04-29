@@ -22,6 +22,7 @@ export default class Product {
             throw new Error('Price must be greater than zero')
         }
     }
+    get id() { return this._id; }
     get name() { return this._name; }
     changeName(name: string) {
         this._name = name

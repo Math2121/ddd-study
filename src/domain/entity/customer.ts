@@ -28,6 +28,12 @@ export default class Customer {
             throw new Error('Address is mandatory to activate a customer');
         }
     }
+    get address(): Address {
+        return this._address;
+    }
+    changeAddress(address: Address) {
+        this._address = address;
+    }
 
     get name(): string {
         return this._name;

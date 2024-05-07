@@ -20,6 +20,16 @@ export default class OrderItem {
     get price() {
         return this._price;
     }
+    get name() {
+        return this._name;
+    }
+    get productId() {
+        return this._productId;
+    }
+
+    get id() {
+        return this._id;
+    }
     orderItemTotal(): number {
         return this._price * this._quantity;
     }

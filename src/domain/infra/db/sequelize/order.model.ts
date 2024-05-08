@@ -22,6 +22,4 @@ export default class OrderModel extends Model {
     @HasMany(() => OrderItemModel)
     declare items: OrderItemModel[]
 
-
-
 }

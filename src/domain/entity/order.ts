@@ -43,6 +43,12 @@ export default class Order {
     get customerId(): string {
         return this._id;
     }
+
+    addItem(items: OrderItem[]): void {
+        this._items = items;
+        this._total = this.total();
+    }
+    
     total(): number {
         return this._items.reduce((total, item) => total + item.orderItemTotal(), 0);
     }

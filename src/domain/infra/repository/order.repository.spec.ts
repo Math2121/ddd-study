@@ -158,5 +158,28 @@ describe("Order repository test", () => {
 
     })
 
+    it("should get an order", async () => {
+
+        const customerRepository = new CustomerRepository();
+        const customer = new Customer("123", "Customer 1");
+        const address = new Address("Street 1", "1", "Zipcode 1", "City 1");
+        customer.Address = address;
+        await customerRepository.create(customer);
+
+        const productRepository = new ProductRepository()
+        const product = new Product("1", "P1", 100)
+        await productRepository.create(product)
+
+        const orderRepository = new OrderRepository();
+        const orderItem = new OrderItem("33", product.name, product.price, product.id, 2)
+        const order = new Order("1", customer.id, [orderItem]);
+
+        await orderRepository.create(order)
+
+        const orders = await orderRepository.find("1")
+
+        expect(orders).toEqual(order)
+    })
+
 
 });

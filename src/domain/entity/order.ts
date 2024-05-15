@@ -41,7 +41,7 @@ export default class Order {
         return this._id;
     }
     get customerId(): string {
-        return this._id;
+        return this._customerId;
     }
 
     addItem(items: OrderItem[]): void {

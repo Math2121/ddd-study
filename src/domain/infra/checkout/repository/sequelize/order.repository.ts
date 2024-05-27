@@ -7,23 +7,26 @@ import OrderItemModel from "./orderItem.mode";
 
 export default class OrderRepository implements OrderRepositoryInterface {
     async update(entity: Order): Promise<void> {
-        const order = await OrderModel.findOne({ where: { id: entity.id } })
-
-        if (!order) {
-            throw new Error("Order not found")
-        }
-
-        const items = entity.items.map(item => {
-            return {
+        const sequelize = OrderModel.sequelize;
+        await sequelize.transaction(async (t) => {
+            await OrderItemModel.destroy({
+                where: { order_id: entity.id },
+                transaction: t,
+            });
+            const items = entity.items.map((item) => ({
                 id: item.id,
                 name: item.name,
                 price: item.price,
                 product_id: item.productId,
-                quantity: item.quantity
-            }
-        })
-
-        await order.update({ customerId: entity.customerId, total: entity.total(), items: items })
+                quantity: item.quantity,
+                order_id: entity.id,
+            }));
+            await OrderItemModel.bulkCreate(items, { transaction: t });
+            await OrderModel.update(
+                { total: entity.total() },
+                { where: { id: entity.id }, transaction: t }
+            );
+        });
     }
     async find(id: string): Promise<Order> {
         const orderModel = await OrderModel.findOne({ where: { id }, include: ["items"] })

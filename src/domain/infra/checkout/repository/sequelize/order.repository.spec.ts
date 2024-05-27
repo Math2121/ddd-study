@@ -106,7 +106,7 @@ describe("Order repository test", () => {
         const orderItem2 = new OrderItem("1234", product2.name, product2.price, product2.id, 2)
 
 
-        order.addItem([orderItem, orderItem2])
+        order.addItem([orderItem2])
         await orderRepository.update(order)
 
 
@@ -114,6 +114,7 @@ describe("Order repository test", () => {
             where: { id: order.id },
             include: ["items"]
         })
+
 
         expect(orderModel.toJSON()).toStrictEqual({
             id: order.id,
@@ -127,6 +128,14 @@ describe("Order repository test", () => {
                     quantity: orderItem.quantity,
                     order_id: "123",
                     product_id: "1"
+                },
+                {
+                    id: orderItem2.id,
+                    name: orderItem2.name,
+                    price: orderItem2.price,
+                    quantity: orderItem2.quantity,
+                    order_id: "123",
+                    product_id: "2"
                 }
             ]
         })

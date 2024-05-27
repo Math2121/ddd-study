@@ -45,7 +45,7 @@ export default class Order {
     }
 
     addItem(items: OrderItem[]): void {
-        this._items = items;
+        this._items = this._items.concat(items);
         this._total = this.total();
     }
     
